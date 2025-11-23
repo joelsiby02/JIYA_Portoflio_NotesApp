@@ -1,0 +1,20 @@
+import { createClient } from '@/utils/supabase/server'
+import { NavbarClient } from './Navbar'
+
+export default async function NavbarWrapper() {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    let isAdmin = false
+    if (user) {
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single()
+
+        isAdmin = profile?.role === 'admin'
+    }
+
+    return <NavbarClient user={user} isAdmin={isAdmin} />
+}
