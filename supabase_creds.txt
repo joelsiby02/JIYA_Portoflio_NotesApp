@@ -1,0 +1,2 @@
+Project name : pharmd-notes
+Database Password : Helloworld@
